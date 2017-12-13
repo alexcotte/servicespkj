@@ -3,8 +3,12 @@ package com.demo.servicespkj;
 
 import static spark.Spark.*;
 
+import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Hello world!
@@ -16,17 +20,33 @@ public class App
     {
     	
     	Logger log = LoggerFactory.getLogger(App.class);
-    	
-    	post("/login", "application/json", (request, response) -> {
-    		String token = Jwt.creacte("10", "usuario");
-    		log.info(""+Jwt.verify(token));
-    		
-    	    return new Message(200,":)");
-    	}, new JsonTransform());
 
-    	post("/logout", "application/json", (request, response) -> {
-    	    return new Message(200,":)");
-    	}, new JsonTransform());
+    	path("/api",() ->{
+    		before("/*",(q,a)-> {
+				String token    = q.headers("Authorization");
+				String verified = Jwt.verify(token);
+				if( verified != Jwt.OK){
+					log.info(token);
+					a.type("application/json");
+					halt(403, new Gson().toJson(new Message(403,verified)));
+				}
+			});
+    		path("plica",()->{
+
+			});
+		});
+
+    	post("/login",(rq,rp)->{
+			String username = rq.queryParams("username");
+			String password = rq.queryParams("password");
+			log.info("Login --> User name="+username+ " password: *************");
+			if(username.equals("username") && password.equals("password")){
+				log.info("Token");
+				return Jwt.creacte(username);
+			}
+			return "error";
+		});
+
 
     	
     	notFound((req, res) -> {
@@ -40,5 +60,7 @@ public class App
     	    res.status(500);
     	    return "{\"code\":\"500\",\"message\":\"Internal Error\"}";
     	});
+
+
     }
 }

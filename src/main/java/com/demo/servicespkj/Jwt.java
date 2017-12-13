@@ -20,7 +20,9 @@ public class Jwt {
 	
 	
 	private static String SECRET ="MUY_SECRETO";
-	static String creacte(String id, String user) throws UnsupportedEncodingException {
+	public  static String OK ="OK";
+
+	static String creacte(String user) throws UnsupportedEncodingException {
 		
 		Calendar calendar = Calendar.getInstance();
 		Date currentdate = new Date(calendar.getTimeInMillis());
@@ -32,22 +34,25 @@ public class Jwt {
                 .setAudience("PLICA")
                 .claim("ROLE","USER")
                 .claim("NAME", user)
+				.setIssuedAt(currentdate)
+				.setExpiration(expiressAt)
                 .signWith(SignatureAlgorithm.HS512, SECRET.getBytes("UTF-8"))
                 .compact();
 	}
 	
-	static boolean verify(String token) {
+	static String verify(String token) {
 		try {
 			Jws<Claims> a = Jwts.parser().
 			setSigningKey(SECRET)
 			.requireAudience("PLICA")
 			.require("ROLE", "USER")
+					.requireExpiration(new Date())
 			.setSigningKey(SECRET.getBytes("UTF-8"))
 			.parseClaimsJws(token);
-			return true;
+			return OK;
 		}catch (Exception e) {
 			e.printStackTrace();
-			return false;
+			return e.getMessage();
 		}
 	}
 	
