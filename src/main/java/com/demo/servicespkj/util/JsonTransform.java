@@ -1,4 +1,4 @@
-package com.demo.servicespkj;
+package com.demo.servicespkj.util;
 
 import com.google.gson.Gson;
 

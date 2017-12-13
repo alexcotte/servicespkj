@@ -1,4 +1,4 @@
-package com.demo.servicespkj;
+package com.demo.servicespkj.util;
 
 public class Message {
 	

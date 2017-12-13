@@ -1,14 +1,17 @@
 package com.demo.servicespkj;
 
 
-import static spark.Spark.*;
-
-import com.google.gson.Gson;
+import static spark.Spark.before;
+import static spark.Spark.halt;
+import static spark.Spark.internalServerError;
+import static spark.Spark.notFound;
+import static spark.Spark.path;
+import static spark.Spark.post;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Map;
-import java.util.Set;
+import com.demo.servicespkj.security.Jwt;
+import com.demo.servicespkj.util.Message;
+import com.google.gson.Gson;
 
 /**
  * Hello world!
@@ -26,7 +29,6 @@ public class App
 				String token    = q.headers("Authorization");
 				String verified = Jwt.verify(token);
 				if( verified != Jwt.OK){
-					log.info(token);
 					a.type("application/json");
 					halt(403, new Gson().toJson(new Message(403,verified)));
 				}
