@@ -7,8 +7,11 @@ import static spark.Spark.internalServerError;
 import static spark.Spark.notFound;
 import static spark.Spark.path;
 import static spark.Spark.post;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.demo.servicespkj.db.Login;
 import com.demo.servicespkj.security.Jwt;
 import com.demo.servicespkj.util.Message;
 import com.google.gson.Gson;
@@ -21,6 +24,7 @@ public class App
 {
     public static void main( String[] args )
     {
+    	
     	
     	Logger log = LoggerFactory.getLogger(App.class);
 
@@ -41,12 +45,7 @@ public class App
     	post("/login",(rq,rp)->{
 			String username = rq.queryParams("username");
 			String password = rq.queryParams("password");
-			log.info("Login --> User name="+username+ " password: *************");
-			if(username.equals("username") && password.equals("password")){
-				log.info("Token");
-				return Jwt.creacte(username);
-			}
-			return "error";
+			return Login.doLogin(username, password);
 		});
 
 

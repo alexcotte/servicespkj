@@ -2,29 +2,49 @@ package com.demo.servicespkj.model;
 
 public class User {
 	
-	String username;
-	String code; //--> Afiliated
+	String mail;
+	String menber; //--> Afiliated
 	String name;
+	String lastname;
 	String password;
 	String phone;
 	
-	public String getUsername() {
-		return username;
+	
+	public User() {}
+	
+	public User(String mail, String menber, String name, String lastname, String password, String phone) {
+		
+		this.mail = mail;
+		this.menber = menber;
+		this.name = name;
+		this.lastname = lastname;
+		this.password = password;
+		this.phone = phone;
 	}
-	public void setUsername(String username) {
-		this.username = username;
+	
+	public String getMail() {
+		return mail;
 	}
-	public String getCode() {
-		return code;
+	public void setMail(String mail) {
+		this.mail = mail;
 	}
-	public void setCode(String code) {
-		this.code = code;
+	public String getMenber() {
+		return menber;
+	}
+	public void setMenber(String menber) {
+		this.menber = menber;
 	}
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public String getLastname() {
+		return lastname;
+	}
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
 	}
 	public String getPassword() {
 		return password;
@@ -38,4 +58,5 @@ public class User {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
+	
 }
